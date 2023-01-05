@@ -122,12 +122,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Second TextField
         if textField == indicationLimitedTextField {
-            let numberSymbols = textField.text?.count ?? 0
+            let numberSymbols = updatedText.count
             let limit = numberLimitSymbols - numberSymbols
             countLabel.text = "\(limit)"
             
             var myMutableString = NSMutableAttributedString()
-            myMutableString = NSMutableAttributedString(string: currentText)
+            myMutableString = NSMutableAttributedString(string: updatedText)
             
             if numberSymbols > numberLimitSymbols {
                 countLabel.textColor = .red
@@ -140,6 +140,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 textField.layer.borderWidth = 0
                 countLabel.textColor = .black
             }
+            print("numberSymbols=\(numberSymbols), lenght=\(numberSymbols - numberLimitSymbols), string=\(string), currentText=\(currentText), updatedText=\(updatedText)")
+            
             return true
         }
         
