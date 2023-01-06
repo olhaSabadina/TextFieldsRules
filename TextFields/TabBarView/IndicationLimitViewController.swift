@@ -13,7 +13,7 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
     
     private let label : UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 25))
-        label.text = "Input limit text, only \(maxLength) charecters"
+        label.text = "Input limit text (\(maxLength) charecters)"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,29 +62,31 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
-        if textField == limitTextField {
-            
-            let numberSymbols = textField.text?.count ?? 0
-            let limit = numberLimitSymbols - numberSymbols
-            limitlabel.text = "\(limit)"
+        let numberSymbols = updatedText.count
+        let limit = numberLimitSymbols - numberSymbols
+        limitlabel.text = "\(limit)"
+        
+        if numberSymbols > numberLimitSymbols {
+            limitlabel.textColor = .red
+            textField.layer.borderColor = UIColor.red.cgColor
+            textField.layer.borderWidth = 1
             
             var myMutableString = NSMutableAttributedString()
             myMutableString = NSMutableAttributedString(string: currentText)
             
-            if numberSymbols > numberLimitSymbols {
-                limitlabel.textColor = .red
-                textField.layer.borderColor = UIColor.red.cgColor
-                textField.layer.borderWidth = 1
-                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range:NSRange(location: numberLimitSymbols, length: numberSymbols - numberLimitSymbols))
-                textField.attributedText = myMutableString
-            } else {
-                textField.textColor = .black
-                textField.layer.borderWidth = 1
-                limitlabel.textColor = .black
-            }
-            return true
+            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range:NSRange(location: 0, length: numberLimitSymbols))
+            
+            textField.textColor = .red
+            textField.attributedText = myMutableString
+        } else {
+            textField.textColor = .black
+            textField.layer.borderWidth = 1
+            limitlabel.textColor = .black
         }
+        
         return true
     }
     

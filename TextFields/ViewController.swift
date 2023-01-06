@@ -126,22 +126,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let limit = numberLimitSymbols - numberSymbols
             countLabel.text = "\(limit)"
             
-            var myMutableString = NSMutableAttributedString()
-            myMutableString = NSMutableAttributedString(string: updatedText)
-            
             if numberSymbols > numberLimitSymbols {
                 countLabel.textColor = .red
                 textField.layer.borderColor = UIColor.red.cgColor
                 textField.layer.borderWidth = 1
-                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range:NSRange(location: numberLimitSymbols, length: numberSymbols - numberLimitSymbols))
+                
+                var myMutableString = NSMutableAttributedString()
+                myMutableString = NSMutableAttributedString(string: currentText)
+                
+                
+                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range:NSRange(location: 0, length: numberLimitSymbols))
+                
+                textField.textColor = .red
                 textField.attributedText = myMutableString
             } else {
                 textField.textColor = .black
                 textField.layer.borderWidth = 0
                 countLabel.textColor = .black
             }
-            print("numberSymbols=\(numberSymbols), lenght=\(numberSymbols - numberLimitSymbols), string=\(string), currentText=\(currentText), updatedText=\(updatedText)")
-            
             return true
         }
         
