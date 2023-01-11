@@ -5,11 +5,7 @@
 //  Created by Olya Sabadina on 2022-12-14.
 //
 
-//import Foundation
-import UIKit
 import Foundation
-
-// regex https://emailregex.com/regular-expressions-cheat-sheet/
 
 extension String {
     
@@ -35,30 +31,5 @@ extension String {
         let predicate = NSPredicate(format: "SELF MATCHES %@", regularExpression)
         return predicate.evaluate(with: self)
     }
-    
-    public func minimumCharacters() -> Bool {
-        let regularExpression = ".{8,}"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
-    }
-    public func oneCapitalLetter() -> Bool {
-        let regularExpression = ".*[A-Z]+.*"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
-    }
-    public func oneLowerCaseLetter() -> Bool {
-        let regularExpression = ".*[a-z]+.*"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
-    }
-    public func oneDigit() -> Bool {
-        let regularExpression = ".*[0-9]+.*"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
-    }
-    public func oneSpecialSymbol() -> Bool {
-        let regularExpression = ".*[ @,<>=+*:;#~|/^!$%&?._-]+.*"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
-    }
 }
-
-
-
-
 

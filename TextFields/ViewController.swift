@@ -12,15 +12,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    @IBOutlet weak var nameProgramLabel: UILabel!
-    @IBOutlet weak var noDigitsFieldLabel: UILabel!
-    @IBOutlet weak var inputLimitLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var letterAndDigitsMaskLabel: UILabel!
-    @IBOutlet weak var linkLabel: UILabel!
-    @IBOutlet weak var validationRulesLabel: UILabel!
-    
-    @IBOutlet weak var stackView: UIStackView!
     
     @IBOutlet weak var checkMarkMinLenght: UIImageView!
     @IBOutlet weak var minimumLenghtLabel: UILabel!
@@ -36,8 +28,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var maskTextField: UITextField!
     @IBOutlet weak var linkTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    
     @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var startButton: UIButton!
+    
+    @IBOutlet weak var switchToTabBarModeButton: UIButton!
     
     private let numberLimitSymbols = 10
     private var url = ""
@@ -45,17 +39,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNoDigitsTextField()
-        configureIndicationLimitedTextField()
-        configureCountLabel()
-        configureMaskTextField()
-        configurelinkTextFieldd()
-        configurePasswordTextField()
+        setUpTextFieldsDelegate()
         registerKeyboard()
         removeKeyboard()
     }
     
-    @IBAction func startButton(_ sender: UIButton) {
+    private func setUpTextFieldsDelegate() {
+        noDigitsTextField.delegate = self
+        indicationLimitedTextField.delegate = self
+        maskTextField.delegate = self
+        linkTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    @IBAction func switchToTabBarModeButton(_ sender: UIButton) {
         let tabBar = MainTabBarController()
         tabBar.modalPresentationStyle = .fullScreen
         present(tabBar, animated: true)
@@ -72,7 +69,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     // If URL is valid, you open this url
-    @objc func getHintsToLinkTextField(textField: UITextField) {
+    @objc func getValideLinkTextField() {
         if url.isValidelinkMask() {
             if url.hasPrefix("www.") {
                 url.insert(contentsOf: "https://", at: url.startIndex)
@@ -81,36 +78,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func openURL(urlAdress: String){
-        guard let url = URL(string: urlAdress) else {return}
-        let safariViewController = SFSafariViewController(url: url)
-        present(safariViewController, animated: true)
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == passwordTextField {
+            registerKeyboard()
+        }
     }
     
-    private func configureNoDigitsTextField() {
-        noDigitsTextField.delegate = self
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == passwordTextField {
+            removeKeyboard()
+            scrollView.contentOffset = CGPoint.zero
+        }
     }
     
-    private func configureIndicationLimitedTextField() {
-        indicationLimitedTextField.delegate = self
-    }
-    
-    private func configureCountLabel() {
-    }
-    
-    private func configureMaskTextField() {
-        maskTextField.delegate = self
-    }
-    
-    private func configurelinkTextFieldd() {
-        linkTextField.delegate = self
-    }
-    
-    private func configurePasswordTextField() {
-        passwordTextField.delegate = self
-    }
-    
-    internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
@@ -122,29 +103,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Second TextField
         if textField == indicationLimitedTextField {
-            let numberSymbols = updatedText.count
-            let limit = numberLimitSymbols - numberSymbols
-            countLabel.text = "\(limit)"
-            
-            if numberSymbols > numberLimitSymbols {
-                countLabel.textColor = .red
-                textField.layer.borderColor = UIColor.red.cgColor
-                textField.layer.borderWidth = 1
-                
-                var myMutableString = NSMutableAttributedString()
-                myMutableString = NSMutableAttributedString(string: currentText)
-                
-                
-                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range:NSRange(location: 0, length: numberLimitSymbols))
-                
-                textField.textColor = .red
-                textField.attributedText = myMutableString
-            } else {
-                textField.textColor = .black
-                textField.layer.borderWidth = 0
-                countLabel.textColor = .black
-            }
-            return true
+            changingStringAfterTenthCharacter(currentText: currentText, textField: textField, updatedText: updatedText)
         }
         
         // Third TextField maskTextField "wwwww-ddddd"
@@ -157,66 +116,93 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Fourth: on link input/paste open it in SFSafariViewController.
         if textField == linkTextField {
-            
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.getHintsToLinkTextField(textField:)), object: textField)
-            
-            self.perform(#selector(self.getHintsToLinkTextField(textField:)), with: textField, afterDelay: 4)
-            url = updatedText
+            registerOpenURL(textField: textField, updatedText: updatedText)
         }
         
         // Five TextField password
         if textField == passwordTextField {
             progress = 0
-            
-            if updatedText.minimumCharacters() {
-                completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
-                
-            } else {
-                basicCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
-            }
-            
-            if updatedText.oneDigit() {
-                completeCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
-                
-            } else {
-                basicCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
-            }
-            
-            if updatedText.oneLowerCaseLetter() {
-                completeCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
-                
-            } else {
-                basicCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
-            }
-            if updatedText.oneCapitalLetter() {
-                completeCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)
-                
-            } else {
-                basicCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)
-            }
-            configureProgress()
+            passwordValidationService(updatedText: updatedText)
         }
         
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == passwordTextField {
-            registerKeyboard()
+    private func passwordValidationService(updatedText: String) {
+        let service = ValidatePasswordMeneger()
+        
+        if service.minimumCharacters(text: updatedText) {
+            completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
+        } else {
+            basicCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
+        }
+        
+        if  service.oneDigit(text: updatedText) {
+            completeCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
+        } else {
+            basicCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
+        }
+        
+        if service.oneLowerCaseLetter(text: updatedText) {
+            completeCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
+        } else {
+            basicCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
+        }
+        
+        if service.oneCapitalLetter(text: updatedText) {
+            completeCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)
+        } else {
+            basicCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)
+        }
+        
+        configureProgress()
+    }
+    
+    private func changingStringAfterTenthCharacter(currentText: String, textField: UITextField, updatedText: String) {
+        
+        let numberSymbols = updatedText.count
+        let limit = numberLimitSymbols - numberSymbols
+        countLabel.text = "\(limit)"
+        
+        if numberSymbols > numberLimitSymbols {
+            countLabel.textColor = .red
+            textField.layer.borderColor = UIColor.red.cgColor
+            textField.layer.borderWidth = 1
+            
+            var myMutableString = NSMutableAttributedString()
+            myMutableString = NSMutableAttributedString(string: currentText)
+            
+            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range:NSRange(location: 0, length: numberLimitSymbols))
+            
+            textField.textColor = .red
+            textField.attributedText = myMutableString
+        } else {
+            textField.textColor = .black
+            textField.layer.borderWidth = 0
+            countLabel.textColor = .black
         }
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == passwordTextField {
-            removeKeyboard()
-            scrollView.contentOffset = CGPoint.zero
-        }
+    
+    private func registerOpenURL(textField: UITextField, updatedText: String) {
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.getValideLinkTextField), object: textField)
+        
+        self.perform(#selector(self.getValideLinkTextField), with: textField, afterDelay: 4)
+        url = updatedText
     }
+    
+    private func openURL(urlAdress: String){
+        guard let url = URL(string: urlAdress) else {return}
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true)
+    }
+    
     private func registerKeyboard(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
     private func removeKeyboard() {
-        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }

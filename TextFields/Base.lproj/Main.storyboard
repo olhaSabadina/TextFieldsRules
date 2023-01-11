@@ -108,7 +108,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dVe-qR-ZSR">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="www.example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dVe-qR-ZSR">
                                                 <rect key="frame" x="10" y="359" width="375" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="dVe-qR-ZSR" secondAttribute="height" multiplier="8:1" id="Hme-Bq-6ud"/>
@@ -247,7 +247,7 @@
                                                     </backgroundConfiguration>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <action selector="startButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qhh-B9-KQ4"/>
+                                                    <action selector="switchToTabBarModeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MI0-Ud-J05"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -317,24 +317,17 @@
                         <outlet property="checkMnimumUpperCase" destination="b1p-OD-3fd" id="aAP-lx-hVB"/>
                         <outlet property="countLabel" destination="pcJ-zM-TT1" id="cHa-8E-nQ6"/>
                         <outlet property="indicationLimitedTextField" destination="NTU-h3-WJg" id="j1L-jP-a8B"/>
-                        <outlet property="inputLimitLabel" destination="BpX-j2-nUT" id="Y9P-s9-iIN"/>
-                        <outlet property="letterAndDigitsMaskLabel" destination="1eo-pI-ewC" id="2jX-SC-WDW"/>
-                        <outlet property="linkLabel" destination="ksP-FG-lOZ" id="x8n-Gu-Ftv"/>
                         <outlet property="linkTextField" destination="dVe-qR-ZSR" id="ESh-8Y-53V"/>
                         <outlet property="maskTextField" destination="1Mr-ZN-KaY" id="hJT-3o-8fk"/>
                         <outlet property="minimumDigitLabel" destination="L0b-rx-4qt" id="tWY-jk-UKa"/>
                         <outlet property="minimumLenghtLabel" destination="LEM-HF-ILf" id="AGN-0Z-EIc"/>
                         <outlet property="minimumLowerCaseLabel" destination="c0L-bx-m53" id="g7h-FC-h4H"/>
                         <outlet property="minimumUpperCaseLabel" destination="1ia-4O-UlA" id="JEj-b2-a3i"/>
-                        <outlet property="nameProgramLabel" destination="6K8-hB-vgv" id="mPw-9m-tkp"/>
-                        <outlet property="noDigitsFieldLabel" destination="CIy-ej-HzK" id="Rp6-gF-ppI"/>
                         <outlet property="noDigitsTextField" destination="yKS-do-SMh" id="Scb-Ew-NWN"/>
                         <outlet property="passwordTextField" destination="Xdb-x9-JGW" id="OaB-Yb-xzq"/>
                         <outlet property="progressView" destination="aJX-OV-H9M" id="61d-P6-1h2"/>
                         <outlet property="scrollView" destination="mGj-of-fza" id="F8D-yX-Fm0"/>
-                        <outlet property="stackView" destination="PTX-H3-AMm" id="Muq-lx-0pb"/>
-                        <outlet property="startButton" destination="tQL-wU-Rdv" id="42c-Qy-C8l"/>
-                        <outlet property="validationRulesLabel" destination="sGh-hc-dra" id="naE-sz-9AF"/>
+                        <outlet property="switchToTabBarModeButton" destination="tQL-wU-Rdv" id="42c-Qy-C8l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

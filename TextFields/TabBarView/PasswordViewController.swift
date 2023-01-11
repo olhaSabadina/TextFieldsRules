@@ -100,7 +100,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         dismiss(animated: true)
     }
     
-    func createVerticalStack() -> UIStackView {
+    private func createVerticalStack() -> UIStackView {
         let stack = UIStackView(arrangedSubviews: [
             createHorizontalStack(image: checkMarkMinLenght, label: minimumLenghtLabel),
             createHorizontalStack(image: chekMarkDigit, label: minimumDigitLabel),
@@ -113,14 +113,14 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         return stack
     }
     
-    func createMark(){
+    private func createMark(){
         checkMarkMinLenght = createCheckMark()
         chekMarkDigit = createCheckMark()
         checkMarkLowerCase = createCheckMark()
         checkMarkUpperCase = createCheckMark()
     }
     
-    func createHorizontalStack(image: UIImageView, label: UILabel) -> UIStackView {
+    private func createHorizontalStack(image: UIImageView, label: UILabel) -> UIStackView {
         let stack = UIStackView(arrangedSubviews: [image,label])
         stack.axis = .horizontal
         stack.alignment = .center
@@ -141,8 +141,8 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLayoutSubviews()
         configureLabel()
         configurePasswordTextField()
-        onfigureProgressView()
-        onfigureVerticalStack()
+        сonfigureProgressView()
+        сonfigureVerticalStack()
     }
     
     private func configureLabel(){
@@ -155,12 +155,12 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: label.topAnchor, constant: 60).isActive = true
     }
-    private func onfigureProgressView(){
+    private func сonfigureProgressView(){
         progressView.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
         progressView.widthAnchor.constraint(equalTo: passwordTextField.widthAnchor).isActive = true
         progressView.centerXAnchor.constraint(equalTo: passwordTextField.centerXAnchor).isActive = true
     }
-    private func onfigureVerticalStack(){
+    private func сonfigureVerticalStack(){
         verticalStack.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 30).isActive = true
         verticalStack.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor).isActive = true
         verticalStack.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor).isActive = true
@@ -174,32 +174,40 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         progress = 0
-        if updatedText.minimumCharacters() {
+        
+        passwordValidationService(updatedText: updatedText)
+        
+        return true
+    }
+    
+    func passwordValidationService(updatedText: String) {
+        let service = ValidatePasswordMeneger()
+        
+        if service.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         } else {
             basicCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         }
         
-        if updatedText.oneDigit() {
+        if  service.oneDigit(text: updatedText) {
             completeCondition(label: minimumDigitLabel, image: chekMarkDigit)
         } else {
             basicCondition(label: minimumDigitLabel, image: chekMarkDigit)
         }
         
-        if updatedText.oneLowerCaseLetter() {
+        if service.oneLowerCaseLetter(text: updatedText) {
             completeCondition(label: minimumLowerCaseLabel, image: checkMarkLowerCase)
         } else {
             basicCondition(label: minimumLowerCaseLabel, image: checkMarkLowerCase)
         }
         
-        if updatedText.oneCapitalLetter() {
+        if service.oneCapitalLetter(text: updatedText) {
             completeCondition(label: minimumUpperCaseLabel, image: checkMarkUpperCase)
         } else {
             basicCondition(label: minimumUpperCaseLabel, image: checkMarkUpperCase)
         }
-        configureProgress()
         
-        return true
+        configureProgress()
     }
     
     private func completeCondition(label: UILabel, image: UIImageView){
