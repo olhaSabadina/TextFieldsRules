@@ -13,7 +13,7 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
     
     private let label : UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 25))
-        label.text = "Input limit text, only \(maxLength) charecters"
+        label.text = "Input limit text (\(maxLength) charecters)"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +21,7 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
     }()
     
     private let limitlabel : UILabel = {
-        let label = UILabel()//frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        let label = UILabel()
         label.text = "\(maxLength)"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16)
@@ -43,6 +43,15 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
         return tf
     }()
     
+    private let backButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
+        button.setTitle("Back to Home", for: .normal)
+        button.backgroundColor = .lightGray
+        button.layer.cornerRadius = 8
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let numberLimitSymbols = 10
     
     override func viewDidLoad() {
@@ -51,6 +60,7 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(label)
         view.addSubview(limitTextField)
         view.addSubview(limitlabel)
+        view.addSubview(backButton)
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,34 +68,46 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
         configureLabel()
         configureLimitTextFieldTextField()
         configurelimitlabel()
+        configureBackButton()
+    }
+    
+    @objc func backToHome(){
+        dismiss(animated: true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
-        if textField == limitTextField {
-            
-            let numberSymbols = textField.text?.count ?? 0
-            let limit = numberLimitSymbols - numberSymbols
-            limitlabel.text = "\(limit)"
+        changingStringAfterTenthCharacter(currentText: currentText, textField: textField, updatedText: updatedText)
+        
+        return true
+    }
+    
+    private func changingStringAfterTenthCharacter(currentText: String, textField: UITextField, updatedText: String) {
+        
+        let numberSymbols = updatedText.count
+        let limit = numberLimitSymbols - numberSymbols
+        limitlabel.text = "\(limit)"
+        
+        if numberSymbols > numberLimitSymbols {
+            limitlabel.textColor = .red
+            textField.layer.borderColor = UIColor.red.cgColor
+            textField.layer.borderWidth = 1
             
             var myMutableString = NSMutableAttributedString()
             myMutableString = NSMutableAttributedString(string: currentText)
             
-            if numberSymbols > numberLimitSymbols {
-                limitlabel.textColor = .red
-                textField.layer.borderColor = UIColor.red.cgColor
-                textField.layer.borderWidth = 1
-                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range:NSRange(location: numberLimitSymbols, length: numberSymbols - numberLimitSymbols))
-                textField.attributedText = myMutableString
-            } else {
-                textField.textColor = .black
-                textField.layer.borderWidth = 1
-                limitlabel.textColor = .black
-            }
-            return true
+            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range:NSRange(location: 0, length: numberLimitSymbols))
+            
+            textField.textColor = .red
+            textField.attributedText = myMutableString
+        } else {
+            textField.textColor = .black
+            textField.layer.borderWidth = 1
+            limitlabel.textColor = .black
         }
-        return true
     }
     
     private func configureLabel(){
@@ -104,6 +126,14 @@ class IndicationLimitViewController: UIViewController, UITextFieldDelegate {
         limitlabel.widthAnchor.constraint(equalToConstant: 28).isActive = true
         limitlabel.trailingAnchor.constraint(equalTo: limitTextField.trailingAnchor, constant: -30).isActive = true
         limitlabel.centerYAnchor.constraint(equalTo: limitTextField.bottomAnchor).isActive = true
+    }
+    
+    private func configureBackButton() {
+        backButton.addTarget(self, action: #selector(backToHome), for: .touchUpInside)
+        backButton.topAnchor.constraint(equalTo: limitTextField.topAnchor, constant: 150).isActive = true
+        backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
