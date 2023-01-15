@@ -40,6 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextFieldsDelegate()
+        setUpTextFielIdentifier()
         registerKeyboard()
         removeKeyboard()
     }
@@ -51,6 +52,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         linkTextField.delegate = self
         passwordTextField.delegate = self
     }
+    private func setUpTextFielIdentifier() {
+        noDigitsTextField.accessibilityIdentifier = "noDigitsTF"
+        indicationLimitedTextField.accessibilityIdentifier = "indicationLimitedTextTF"
+        maskTextField.accessibilityIdentifier = "maskTF"
+        linkTextField.accessibilityIdentifier = "linkTF"
+        passwordTextField.accessibilityIdentifier = "passwordTF"
+        switchToTabBarModeButton.accessibilityIdentifier = "switchToTabBarBT"
+    }
+    
+    
     
     @IBAction func switchToTabBarModeButton(_ sender: UIButton) {
         let tabBar = MainTabBarController()
@@ -70,12 +81,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     // If URL is valid, you open this url
     @objc func getValideLinkTextField() {
-        if url.isValidelinkMask() {
-            if url.hasPrefix("www.") {
-                url.insert(contentsOf: "https://", at: url.startIndex)
-            }
-            openURL(urlAdress: url)
+        guard ValidateManager().isValidelinkMask(text: url) else {return}
+        if url.hasPrefix("www.") {
+            url.insert(contentsOf: "https://", at: url.startIndex)
         }
+        openURL(urlAdress: url)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -98,7 +108,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // First TextField
         if textField == noDigitsTextField {
-            return !updatedText.noDigits()
+            return !ValidateManager().noDigits(text: updatedText)
         }
         
         // Second TextField
@@ -111,7 +121,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if updatedText.count == 6 && range.length != 1 {
                 textField.text?.append("-")
             }
-            return updatedText.letterAndDigitsMask()
+            return ValidateManager().letterAndDigitsMask(text: updatedText)
         }
         
         // Fourth: on link input/paste open it in SFSafariViewController.
@@ -129,7 +139,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func passwordValidationService(updatedText: String) {
-        let service = ValidatePasswordMeneger()
+        let service = ValidatePasswordManager()
         
         if service.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)

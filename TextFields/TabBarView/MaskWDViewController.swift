@@ -68,7 +68,7 @@ class MaskWDViewController: UIViewController, UITextFieldDelegate {
         if updatedText.count == 6 && range.length != 1 {
             textField.text?.append("-")
         }
-        return updatedText.letterAndDigitsMask()
+        return ValidateManager().letterAndDigitsMask(text: updatedText)
     }
     
     private func configureLabel(){

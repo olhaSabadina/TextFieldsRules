@@ -7,29 +7,29 @@
 
 import Foundation
 
-extension String {
+struct ValidateManager {
     
-    public func noDigits() -> Bool {
+    public func noDigits(text: String) -> Bool {
         let regularExpression = ".*[0-9]+.*"
-        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: self)
+        return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: text)
     }
     
-    public func letterAndDigitsMask() -> Bool {
+    public func letterAndDigitsMask(text: String) -> Bool {
         var regularExpression = ""
-        if self.count <= 5 {
+        if text.count <= 5 {
             regularExpression = "[a-zA-Zа-яА-Я]{0,5}"
         } else {
             regularExpression = "^[a-zA-Zа-яА-Я]{5} ?-? ?[0-9]{0,5}$"
         }
         let predicate = NSPredicate(format: "SELF MATCHES %@", regularExpression)
-        return predicate.evaluate(with: self)
+        return predicate.evaluate(with: text)
     }
     
-    public func isValidelinkMask() -> Bool {
+    public func isValidelinkMask(text: String) -> Bool {
         var regularExpression = ""
         regularExpression = "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?"
         let predicate = NSPredicate(format: "SELF MATCHES %@", regularExpression)
-        return predicate.evaluate(with: self)
+        return predicate.evaluate(with: text)
     }
 }
 

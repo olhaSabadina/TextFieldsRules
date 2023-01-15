@@ -63,13 +63,13 @@ class LinkViewController: UIViewController, UITextFieldDelegate{
     }
     
     @objc func getValideLinkTextField() {
-        if url.isValidelinkMask() {
+        guard ValidateManager().isValidelinkMask(text: url) else {return}
             if url.hasPrefix("www.") {
                 url.insert(contentsOf: "https://", at: url.startIndex)
             }
             openURL(urlAdress: url)
         }
-    }
+    
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

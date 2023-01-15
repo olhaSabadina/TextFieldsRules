@@ -66,7 +66,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         tf.backgroundColor = .white
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.font = .systemFont(ofSize: 20)
-        tf.placeholder = "input link"
+        tf.placeholder = "input password"
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor.lightGray.cgColor
         tf.layer.cornerRadius = 4
@@ -181,7 +181,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func passwordValidationService(updatedText: String) {
-        let service = ValidatePasswordMeneger()
+        let service = ValidatePasswordManager()
         
         if service.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
