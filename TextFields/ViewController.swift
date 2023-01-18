@@ -36,6 +36,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private let numberLimitSymbols = 10
     private var url = ""
     private var progress: Float = 0
+    private let manager = ValidateManager()
+    private let service = ValidatePasswordManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     // If URL is valid, you open this url
     @objc func getValideLinkTextField() {
-        guard ValidateManager().isValidelinkMask(text: url) else {return}
+        guard manager.isValideLinkMask(text: url) else {return}
         if url.hasPrefix("www.") {
             url.insert(contentsOf: "https://", at: url.startIndex)
         }
@@ -108,7 +110,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // First TextField
         if textField == noDigitsTextField {
-            return !ValidateManager().noDigits(text: updatedText)
+            return !manager.isContainsDigits(text: updatedText)
         }
         
         // Second TextField
@@ -121,7 +123,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if updatedText.count == 6 && range.length != 1 {
                 textField.text?.append("-")
             }
-            return ValidateManager().letterAndDigitsMask(text: updatedText)
+            return manager.letterAndDigitsMask(text: updatedText)
         }
         
         // Fourth: on link input/paste open it in SFSafariViewController.
@@ -139,7 +141,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func passwordValidationService(updatedText: String) {
-        let service = ValidatePasswordManager()
         
         if service.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)

@@ -9,7 +9,7 @@ import Foundation
 
 struct ValidateManager {
     
-    public func noDigits(text: String) -> Bool {
+    public func isContainsDigits(text: String) -> Bool {
         let regularExpression = ".*[0-9]+.*"
         return NSPredicate(format: "SELF MATCHES %@", regularExpression).evaluate(with: text)
     }
@@ -25,7 +25,7 @@ struct ValidateManager {
         return predicate.evaluate(with: text)
     }
     
-    public func isValidelinkMask(text: String) -> Bool {
+    public func isValideLinkMask(text: String) -> Bool {
         var regularExpression = ""
         regularExpression = "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?"
         let predicate = NSPredicate(format: "SELF MATCHES %@", regularExpression)

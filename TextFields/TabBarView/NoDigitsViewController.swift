@@ -66,7 +66,7 @@ class NoDigitsViewController: UIViewController, UITextFieldDelegate {
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        return !ValidateManager().noDigits(text: updatedText)
+        return !ValidateManager().isContainsDigits(text: updatedText)
     }
     
     private func configureLabel(){
