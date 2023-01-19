@@ -83,6 +83,8 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         return progress
     }()
     
+    let managerForValidatePasswordField = ValidatePasswordManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordTextField.delegate = self
@@ -164,7 +166,6 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         verticalStack.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 30).isActive = true
         verticalStack.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor).isActive = true
         verticalStack.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor).isActive = true
-        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -181,27 +182,26 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func passwordValidationService(updatedText: String) {
-        let service = ValidatePasswordManager()
-        
-        if service.minimumCharacters(text: updatedText) {
+       
+        if managerForValidatePasswordField.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         } else {
             basicCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         }
         
-        if  service.oneDigit(text: updatedText) {
+        if  managerForValidatePasswordField.oneDigit(text: updatedText) {
             completeCondition(label: minimumDigitLabel, image: chekMarkDigit)
         } else {
             basicCondition(label: minimumDigitLabel, image: chekMarkDigit)
         }
         
-        if service.oneLowerCaseLetter(text: updatedText) {
+        if managerForValidatePasswordField.oneLowerCaseLetter(text: updatedText) {
             completeCondition(label: minimumLowerCaseLabel, image: checkMarkLowerCase)
         } else {
             basicCondition(label: minimumLowerCaseLabel, image: checkMarkLowerCase)
         }
         
-        if service.oneCapitalLetter(text: updatedText) {
+        if managerForValidatePasswordField.oneCapitalLetter(text: updatedText) {
             completeCondition(label: minimumUpperCaseLabel, image: checkMarkUpperCase)
         } else {
             basicCondition(label: minimumUpperCaseLabel, image: checkMarkUpperCase)

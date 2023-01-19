@@ -70,7 +70,6 @@ class LinkViewController: UIViewController, UITextFieldDelegate{
         openURL(urlAdress: url)
     }
     
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = textField.text ?? ""

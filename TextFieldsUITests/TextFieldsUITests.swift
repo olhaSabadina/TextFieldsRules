@@ -26,6 +26,7 @@ final class TextFieldsUserBehaviorUITests: XCTestCase {
         app.textFields["indicationLimitedTextTF"].tap()
         app.textFields["indicationLimitedTextTF"].typeText("indicationLimitedTextField")
         app.keyboards.buttons["Return"].tap()
+        XCTAssertTrue(app.staticTexts["-16"].exists)
         XCTAssertEqual(app.textFields["indicationLimitedTextTF"].value as! String, "indicationLimitedTextField")
     }
     
@@ -78,6 +79,7 @@ final class TextFieldsUserBehaviorUITests: XCTestCase {
         app.textFields["limit = 10 charecters"].tap()
         app.textFields["limit = 10 charecters"].typeText("indicationLimitedTextField")
         app.keyboards.buttons["Return"].tap()
+        XCTAssertTrue(app.staticTexts["-16"].exists)
         XCTAssertEqual(app.textFields["limit = 10 charecters"].value as? String, "indicationLimitedTextField")
         app.buttons["Back to Home"].tap()
     }

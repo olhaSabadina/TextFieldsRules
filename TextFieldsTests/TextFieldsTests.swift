@@ -14,125 +14,111 @@ final class TextFieldsUnitTests: XCTestCase {
     var sut1 = ValidateManager()
     var sut2 = ValidatePasswordManager()
     
-    //    MARK testManager Does string contains digits?
-    
-    func testWhenReceivedDigistReturnTrue() {
+    func testIsContainsDigitsReturnTrue() {
         let textWithDigits = "String with 235 digits"
         XCTAssertTrue(sut1.isContainsDigits(text: textWithDigits))
     }
-    func testWhenReceivedDigistReturnFalse() {
+    func testIsContainsDigitsReturnFalse() {
         let textWithoutDigits = "String with digits"
         XCTAssertFalse(sut1.isContainsDigits(text: textWithoutDigits))
     }
     
-    //    MARK testManager MaskIsFiveletterMinusFiveDigits like wwwww-ddddd
-    
-    func testInputMaskFiveletterMinusFiveDigitsWhenInputFiveLetters() {
+    func testLetterAndDigitsMaskWhenWeInputFiveLettersReturnTrue() {
         let inputFiveLetters = "fgHJk"
         XCTAssertTrue(sut1.letterAndDigitsMask(text: inputFiveLetters))
     }
     
-    func testInputMaskFiveletterMinusFiveDigitsWhenInputMoreThenFiveLetters() {
+    func testLetterAndDigitsMaskWhenWeInputMoreThanFiveLettersReturnFalse() {
         let inputMoreThenFiveLetters = "fgHJkLM"
         XCTAssertFalse(sut1.letterAndDigitsMask(text: inputMoreThenFiveLetters))
     }
     
-    func testInputMaskFiveletterMinusFiveDigitsWhenInputMinus() {
+    func testLetterAndDigitsMaskWhenWeInputMinusReturnTrue() {
         let inputMinus = "fgHJk-"
         XCTAssertTrue(sut1.letterAndDigitsMask(text: inputMinus))
     }
     
-    func testInputMaskFiveletterMinusFiveDigitsWhenInputFiveletterMinusSixDigits() {
+    func testLetterAndDigitsMaskWhenWeInputFiveLetterMinusSixDigitsReturnFalse() {
         let inputFiveletterMinusSixDigits = "fgHJk-123456"
         XCTAssertFalse(sut1.letterAndDigitsMask(text: inputFiveletterMinusSixDigits))
     }
     
-    func testInputMaskFiveletterMinusFiveDigitsWhenUserDoesNotInputMinus() {
-        let inputFiveletterFiveDigits = "fgHJk12345"
-        XCTAssertTrue(sut1.letterAndDigitsMask(text: inputFiveletterFiveDigits))
-    }        // minus will be inputeded automatically
-    
-    func testInputMaskFiveletterMinusFiveDigitsWhenInputFiveletterMinusFiveDigits() {
+    func testLetterAndDigitsMaskWhenWeInputFiveletterMinusFiveDigitsReturnTrue() {
         let inputFiveletterMinusFiveDigits = "fgHJk-12345"
         XCTAssertTrue(sut1.letterAndDigitsMask(text: inputFiveletterMinusFiveDigits))
     }
     
-    //    MARK testManager link Mask
-    
-    func testIsValideLinkMaskWithPrefixWWW() {
+    func testIsValideLinkMaskWithPrefixWWWReturnTrue() {
         let inputLink = "www.google.com"
         XCTAssertTrue(sut1.isValideLinkMask(text: inputLink))
     }
     
-    func testIsValideLinkMaskWithPrefixHTTPS() {
+    func testIsValideLinkMaskWithPrefixHTTPSReturnTrue() {
         let inputLink = "https://google.com"
         XCTAssertTrue(sut1.isValideLinkMask(text: inputLink))
     }
     
-    func testIsValideLinkMaskIfLinkIsNotValide() {
+    func testIsValideLinkMaskIfLinkIsNotValideReturnFalse() {
         let inputLink = ".google.com"
         XCTAssertFalse(sut1.isValideLinkMask(text: inputLink))
     }
     
-    //    MARK test Validate Password Manager
-    
-    func testIsValideOneCapitalLetterReturnTrue() {
+    func testOneCapitalLetterWeHaveInPasswordReturnTrue() {
         let inputTexts = "A"
         XCTAssertTrue(sut2.oneCapitalLetter(text: inputTexts))
     }
     
-    func testIsValideOneCapitalLetterReturnFalse() {
+    func testOneCapitalLetterWeHaveInPasswordReturnFalse() {
         let inputTexts = "a"
         XCTAssertFalse(sut2.oneCapitalLetter(text: inputTexts))
     }
     
-    func testIsValideOneLowerCaseLetterReturnTrue() {
+    func testOneLowerCaseLetterWeHaveInPasswordReturnTrue() {
         let inputTexts = "b"
         XCTAssertTrue(sut2.oneLowerCaseLetter(text: inputTexts))
     }
     
-    func testIsValideOneLowerCaseLetterReturnFalse() {
+    func testOneLowerCaseLetterWeHaveInPasswordReturnFalse() {
         let inputTexts = "B"
         XCTAssertFalse(sut2.oneLowerCaseLetter(text: inputTexts))
     }
     
-    func testIsValideOneDigitReturnTrue() {
+    func testOneDigitWeHaveInPasswordReturnTrue() {
         let inputTexts = "3"
         XCTAssertTrue(sut2.oneDigit(text: inputTexts))
     }
-    func testIsValideOneDigitReturnFalse() {
+    func testOneDigitWeHaveInPasswordReturnFalse() {
         let inputTexts = "r"
         XCTAssertFalse(sut2.oneDigit(text: inputTexts))
     }
     
-    func testIsValideMinimumCharactersIfInput5Characters() {
+    func testMinimumCharactersIfWeHaveInPassword5CharactersReturnFalse() {
         let inputTextsContains5Characters = "asd/2"
         XCTAssertFalse(sut2.minimumCharacters(text: inputTextsContains5Characters))
     }
     
-    func testIsValideMinimumCharactersIfInput8OrMoreCharacters() {
+    func testMinimumCharactersIfWeHaveInPassword8OrMoreCharactersReturnTrue() {
         let inputTextsContains8OrMoreCharacters = "asd12//[fghgjgjhk"
         XCTAssertTrue(sut2.minimumCharacters(text: inputTextsContains8OrMoreCharacters))
     }
     
-    func testIsValideMinimumCharactersIfInput8Characters() {
+    func testMinimumCharactersIfWeHaveInPasswordOnly8CharactersReturnTrue() {
         let inputTexts8Characters = "asd12//["
         XCTAssertTrue(sut2.minimumCharacters(text: inputTexts8Characters))
     }
     
-    func testIsValideOneSpecialSymbol() {
+    func testOneSpecialSymbolWeHaveInPasswordReturnTrue() {
         let inputTextsContainsSpecialSymbol = "saa/555"
         XCTAssertTrue(sut2.oneSpecialSymbol(text: inputTextsContainsSpecialSymbol))
     }
     
-    func testIsValideOneOrMoreSpecialSymbol() {
-        let inputTextsContainsSpecialSymbol = "saa/[{555"
-        XCTAssertTrue(sut2.oneSpecialSymbol(text: inputTextsContainsSpecialSymbol))
+    func testOneSpecialSymbolWeHaveOneOrMoreSpecialSymbolInPasswordReturnTrue() {
+        let inputTextsContainsSpecialSymbols = "saa/[{555"
+        XCTAssertTrue(sut2.oneSpecialSymbol(text: inputTextsContainsSpecialSymbols))
     }
     
-    func testIsValideSpecialSymbolWhenTextDosNotHaveSpecialSymbol() {
+    func testOneSpecialSymbolIfWeDosNotHaveSpecialSymbolInPasswordReturnFalse() {
         let inputTextsNotContainsSpecialSymbol = "saa555"
         XCTAssertFalse(sut2.oneSpecialSymbol(text: inputTextsNotContainsSpecialSymbol))
     }
-    
 }
