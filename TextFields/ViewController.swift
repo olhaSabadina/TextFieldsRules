@@ -36,10 +36,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private let numberLimitSymbols = 10
     private var url = ""
     private var progress: Float = 0
+    private let managerForValidateNotSecureTextFields = ValidateManager()
+    private let managerForValidatePasswordField = ValidatePasswordManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextFieldsDelegate()
+        setUpTextFielIdentifier()
         registerKeyboard()
         removeKeyboard()
     }
@@ -50,6 +53,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         maskTextField.delegate = self
         linkTextField.delegate = self
         passwordTextField.delegate = self
+    }
+    private func setUpTextFielIdentifier() {
+        noDigitsTextField.accessibilityIdentifier = "noDigitsTF"
+        indicationLimitedTextField.accessibilityIdentifier = "indicationLimitedTextTF"
+        maskTextField.accessibilityIdentifier = "maskTF"
+        linkTextField.accessibilityIdentifier = "linkTF"
+        passwordTextField.accessibilityIdentifier = "passwordTF"
+        switchToTabBarModeButton.accessibilityIdentifier = "switchToTabBarBT"
     }
     
     @IBAction func switchToTabBarModeButton(_ sender: UIButton) {
@@ -70,12 +81,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     // If URL is valid, you open this url
     @objc func getValideLinkTextField() {
-        if url.isValidelinkMask() {
-            if url.hasPrefix("www.") {
-                url.insert(contentsOf: "https://", at: url.startIndex)
-            }
-            openURL(urlAdress: url)
+        guard managerForValidateNotSecureTextFields.isValideLinkMask(text: url) else {return}
+        if url.hasPrefix("www.") {
+            url.insert(contentsOf: "https://", at: url.startIndex)
         }
+        openURL(urlAdress: url)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -96,30 +106,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
-        // First TextField
         if textField == noDigitsTextField {
-            return !updatedText.noDigits()
+            return !managerForValidateNotSecureTextFields.isContainsDigits(text: updatedText)
         }
         
-        // Second TextField
         if textField == indicationLimitedTextField {
             changingStringAfterTenthCharacter(currentText: currentText, textField: textField, updatedText: updatedText)
         }
         
-        // Third TextField maskTextField "wwwww-ddddd"
+        // maskTextField "wwwww-ddddd"
         if textField == maskTextField {
             if updatedText.count == 6 && range.length != 1 {
                 textField.text?.append("-")
             }
-            return updatedText.letterAndDigitsMask()
+            return managerForValidateNotSecureTextFields.letterAndDigitsMask(text: updatedText)
         }
         
-        // Fourth: on link input/paste open it in SFSafariViewController.
         if textField == linkTextField {
             registerOpenURL(textField: textField, updatedText: updatedText)
         }
         
-        // Five TextField password
         if textField == passwordTextField {
             progress = 0
             passwordValidationService(updatedText: updatedText)
@@ -129,27 +135,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func passwordValidationService(updatedText: String) {
-        let service = ValidatePasswordMeneger()
         
-        if service.minimumCharacters(text: updatedText) {
+        if managerForValidatePasswordField.minimumCharacters(text: updatedText) {
             completeCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         } else {
             basicCondition(label: minimumLenghtLabel, image: checkMarkMinLenght)
         }
         
-        if  service.oneDigit(text: updatedText) {
+        if  managerForValidatePasswordField.oneDigit(text: updatedText) {
             completeCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
         } else {
             basicCondition(label: minimumDigitLabel, image: checkMarkMinimumDigit)
         }
         
-        if service.oneLowerCaseLetter(text: updatedText) {
+        if managerForValidatePasswordField.oneLowerCaseLetter(text: updatedText) {
             completeCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
         } else {
             basicCondition(label: minimumLowerCaseLabel, image: checkMarkMinimumLowerCase)
         }
         
-        if service.oneCapitalLetter(text: updatedText) {
+        if managerForValidatePasswordField.oneCapitalLetter(text: updatedText) {
             completeCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)
         } else {
             basicCondition(label: minimumUpperCaseLabel, image: checkMnimumUpperCase)

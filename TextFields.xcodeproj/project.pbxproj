@@ -13,7 +13,7 @@
 		587E6ADF294A0A8F00057BC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 587E6ADD294A0A8F00057BC0 /* Main.storyboard */; };
 		587E6AE1294A0A9200057BC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587E6AE0294A0A9200057BC0 /* Assets.xcassets */; };
 		587E6AE4294A0A9200057BC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 587E6AE2294A0A9200057BC0 /* LaunchScreen.storyboard */; };
-		587E6AEC294A331500057BC0 /* ExtensionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E6AEB294A331500057BC0 /* ExtensionManager.swift */; };
+		587E6AEC294A331500057BC0 /* ValidateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587E6AEB294A331500057BC0 /* ValidateManager.swift */; };
 		589F13DE296228F900E001D0 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F13DD296228F900E001D0 /* MainTabBarController.swift */; };
 		589F13E02962290900E001D0 /* NoDigitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F13DF2962290900E001D0 /* NoDigitsViewController.swift */; };
 		589F13E22962291B00E001D0 /* IndicationLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F13E12962291B00E001D0 /* IndicationLimitViewController.swift */; };
@@ -22,8 +22,7 @@
 		589F13E82962294800E001D0 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F13E72962294800E001D0 /* PasswordViewController.swift */; };
 		58C7EB4E2964BF2F002ABC1B /* TextFieldsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7EB4D2964BF2F002ABC1B /* TextFieldsTests.swift */; };
 		58C7EB5B2964BF4B002ABC1B /* TextFieldsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7EB5A2964BF4B002ABC1B /* TextFieldsUITests.swift */; };
-		58C7EB5D2964BF4B002ABC1B /* TextFieldsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7EB5C2964BF4B002ABC1B /* TextFieldsUITestsLaunchTests.swift */; };
-		58C7EB86296EE39E002ABC1B /* ValidatePasswordMeneger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7EB85296EE39E002ABC1B /* ValidatePasswordMeneger.swift */; };
+		58C7EB86296EE39E002ABC1B /* ValidatePasswordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7EB85296EE39E002ABC1B /* ValidatePasswordManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +51,7 @@
 		587E6AE0294A0A9200057BC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		587E6AE3294A0A9200057BC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		587E6AE5294A0A9200057BC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		587E6AEB294A331500057BC0 /* ExtensionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionManager.swift; sourceTree = "<group>"; };
+		587E6AEB294A331500057BC0 /* ValidateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateManager.swift; sourceTree = "<group>"; };
 		589F13DD296228F900E001D0 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		589F13DF2962290900E001D0 /* NoDigitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDigitsViewController.swift; sourceTree = "<group>"; };
 		589F13E12962291B00E001D0 /* IndicationLimitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicationLimitViewController.swift; sourceTree = "<group>"; };
@@ -63,8 +62,7 @@
 		58C7EB4D2964BF2F002ABC1B /* TextFieldsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldsTests.swift; sourceTree = "<group>"; };
 		58C7EB582964BF4B002ABC1B /* TextFieldsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextFieldsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C7EB5A2964BF4B002ABC1B /* TextFieldsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldsUITests.swift; sourceTree = "<group>"; };
-		58C7EB5C2964BF4B002ABC1B /* TextFieldsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		58C7EB85296EE39E002ABC1B /* ValidatePasswordMeneger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatePasswordMeneger.swift; sourceTree = "<group>"; };
+		58C7EB85296EE39E002ABC1B /* ValidatePasswordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatePasswordManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +116,8 @@
 				587E6AD7294A0A8F00057BC0 /* AppDelegate.swift */,
 				587E6AD9294A0A8F00057BC0 /* SceneDelegate.swift */,
 				587E6ADB294A0A8F00057BC0 /* ViewController.swift */,
-				587E6AEB294A331500057BC0 /* ExtensionManager.swift */,
-				58C7EB85296EE39E002ABC1B /* ValidatePasswordMeneger.swift */,
+				587E6AEB294A331500057BC0 /* ValidateManager.swift */,
+				58C7EB85296EE39E002ABC1B /* ValidatePasswordManager.swift */,
 				589F13DC296228C000E001D0 /* TabBarView */,
 				587E6ADD294A0A8F00057BC0 /* Main.storyboard */,
 				587E6AE0294A0A9200057BC0 /* Assets.xcassets */,
@@ -154,7 +152,6 @@
 			isa = PBXGroup;
 			children = (
 				58C7EB5A2964BF4B002ABC1B /* TextFieldsUITests.swift */,
-				58C7EB5C2964BF4B002ABC1B /* TextFieldsUITestsLaunchTests.swift */,
 			);
 			path = TextFieldsUITests;
 			sourceTree = "<group>";
@@ -299,8 +296,8 @@
 				589F13DE296228F900E001D0 /* MainTabBarController.swift in Sources */,
 				589F13E02962290900E001D0 /* NoDigitsViewController.swift in Sources */,
 				589F13E82962294800E001D0 /* PasswordViewController.swift in Sources */,
-				58C7EB86296EE39E002ABC1B /* ValidatePasswordMeneger.swift in Sources */,
-				587E6AEC294A331500057BC0 /* ExtensionManager.swift in Sources */,
+				58C7EB86296EE39E002ABC1B /* ValidatePasswordManager.swift in Sources */,
+				587E6AEC294A331500057BC0 /* ValidateManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +313,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58C7EB5D2964BF4B002ABC1B /* TextFieldsUITestsLaunchTests.swift in Sources */,
 				58C7EB5B2964BF4B002ABC1B /* TextFieldsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

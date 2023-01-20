@@ -23,7 +23,7 @@ class MaskWDViewController: UIViewController, UITextFieldDelegate {
         tf.backgroundColor = .white
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.font = .systemFont(ofSize: 20)
-        tf.placeholder = "wwwww - ddddd"
+        tf.placeholder = "wwwww-ddddd"
         tf.layer.borderWidth = 1
         tf.layer.borderColor = UIColor.lightGray.cgColor
         tf.layer.cornerRadius = 4
@@ -68,7 +68,7 @@ class MaskWDViewController: UIViewController, UITextFieldDelegate {
         if updatedText.count == 6 && range.length != 1 {
             textField.text?.append("-")
         }
-        return updatedText.letterAndDigitsMask()
+        return ValidateManager().letterAndDigitsMask(text: updatedText)
     }
     
     private func configureLabel(){

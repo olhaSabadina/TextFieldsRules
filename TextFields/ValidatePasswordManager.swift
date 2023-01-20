@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct ValidatePasswordMeneger {
+struct ValidatePasswordManager {
     
     public func minimumCharacters(text: String) -> Bool {
         let regularExpression = ".{8,}"
